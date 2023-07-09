@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="icon" href="Flag_of_Europe.png" type="image/x-icon">
+  <title>Интерактивная карта</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    #map {
+      position: relative;
+    }
+    #map img {
+      display: block;
+      margin: 0 auto;
+    }
+    #map a {
+      position: absolute;
+    }
+    .square {
+      position: absolute;
+      background-color: rgba(255, 5, 5, 0.063);
+      cursor: pointer;
+    }
+    .square:hover::before {
+      content: "";
+      position: absolute;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-image: url('Flag_of_Europe.png'); /* Заменить на путь к картинке по умолчанию */
+      background-size: cover;
+      width: 30px;
+      height: 30px;
+      margin-bottom: 5px;
+    }
+    .square:hover::after {
+      content: attr(data-name);
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 2px;
+      border-radius: 3px;
+      font-size: 12px;
+    }
+
+    .flag-left-down {
+      position: absolute;
+      top: 97.9%;
+      left: -15px;
+      transform: translateY(-50%);
+      background-image: url('Flag_of_Europe.png'); /* Заменить на путь к картинке флага ЕС */
+      background-size: cover;
+      width: 30px;
+      height: 30px;
+    }
+    .flag-right-up {
+      position: absolute;
+      top: 2%;
+      right: -15px;
+      transform: translateY(-50%);
+      background-image: url('Flag_of_Europe.png'); /* Заменить на путь к картинке флага ЕС */
+      background-size: cover;
+      width: 30px;
+      height: 30px;
+    }
+    .flag-left-up {
+      position: absolute;
+      top: 2%;
+      left: -15px;
+      transform: translateY(-50%);
+      background-image: url('Flag_of_Europe.png'); /* Заменить на путь к картинке флага ЕС */
+      background-size: cover;
+      width: 30px;
+      height: 30px;
+    }
+    .flag-right-down {
+      position: absolute;
+      top: 97.9%;
+      right: -15px;
+      transform: translateY(-50%);
+      background-image: url('Flag_of_Europe.png'); /* Заменить на путь к картинке флага ЕС */
+      background-size: cover;
+      width: 30px;
+      height: 30px;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="map">
+    <div class="flag-left-down"></div>
+    <div class="flag-right-up"></div>
+    <div class="flag-left-up"></div>
+    <div class="flag-right-down"></div>
+    <img src="EоU.png" alt="Интерактивная карта" width="711" height="711"/>
+  </div>
+
+  <script>
+    // Массив со ссылками, размерами, страницами, названиями и картинками
+    var links = [
+      { top: 437, left: 577, width: 95, height: 108, page: 'https://discord.gg/MzgtMNytXZ', name: 'Франция'},
+      { top: 565, left: 705, width: 20, height: 30, page: 'https://discord.gg/MzgtMNytXZ', name: 'Франция'},
+
+      { top: 428, left: 674, width: 9, height: 10, page: 'https://luxenstein.github.io/Luxenstein/', name: 'Люксембург'},
+
+      { top: 365, left: 690, width: 40, height: 80, page: 'https://discord.gg/VqaAAYtdKQ', name: 'Германия'},
+      { top: 430, left: 700, width: 55, height: 40, page: 'https://discord.gg/VqaAAYtdKQ', name: 'Германия'},
+      { top: 379, left: 764, width: 5, height: 5, page: 'https://discord.gg/VqaAAYtdKQ', name: 'Германия'},
+
+      { top: 295, left: 710, width: 40, height: 40, page: 'https://discord.gg/chsjCCrrb9', name: 'Дания'},
+
+      { top: 602, left: 701, width: 22, height: 39, page: 'https://discord.gg/pr5psJgRD9', name: 'Италия'},
+      { top: 650, left: 765, width: 50, height: 30, page: 'https://discord.gg/pr5psJgRD9', name: 'Италия'},
+      { top: 505, left: 700, width: 70, height: 30, page: 'https://discord.gg/pr5psJgRD9', name: 'Италия'},
+      { top: 555, left: 720, width: 130, height: 40, page: 'https://discord.gg/pr5psJgRD9', name: 'Италия', rotation: 40 },
+
+      { top: 465, left: 730, width: 80, height: 30, page: 'https://discord.gg/DZtEh6Dsx4', name: 'Австрия', rotation: 340},
+
+      { top: 165, left: 750, width: 50, height: 150, page: 'https://discord.gg/pCdgM5x9', name: 'Швеция'},
+      { top: 90, left: 770, width: 50, height: 75, page: 'https://discord.gg/pCdgM5x9', name: 'Швеция'},
+
+    ];
+
+    // Создаем квадраты и добавляем обработчики событий
+    for (var i = 0; i < links.length; i++) {
+      var square = document.createElement('div');
+      square.className = 'square';
+      square.style.top = links[i].top + 'px';
+      square.style.left = links[i].left + 'px';
+      square.style.width = links[i].width + 'px';
+      square.style.height = links[i].height + 'px';
+      square.style.transform = 'rotate(' + links[i].rotation + 'deg)';
+      square.style.backgroundImage = "url('" + links[i].image + "')"; // Задаем картинку из свойства image
+      square.setAttribute('data-name', links[i].name);
+      square.addEventListener('click', createHandler(links[i].page));
+      document.body.appendChild(square);
+    }
+
+    // Функция для создания обработчика события
+    function createHandler(page) {
+      return function() {
+        window.location.href = page;
+      };
+    }
+  </script>
+</body>
+</html>

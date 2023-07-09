@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="icon" href="Flag_of_Europe.png" type="image/x-icon">
+  <title>Карта ЕС</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    #map {
+      position: relative;
+    }
+    #map img {
+      display: block;
+      margin: 0 auto;
+    }
+    #map a {
+      position: absolute;
+    }
+    .square {
+      position: absolute;
+      background-color: red;
+      cursor: pointer;
+    }
+
+    .square:hover::before {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-size: cover;
+      width: 55px;
+      height: 55px;
+      margin-bottom: 5px;
+    }
+
+    .square[data-image]::before {
+      background-image: url('france.png'); /* Путь к картинке по умолчанию */
+    }
+
+    .square:hover::after {
+      content: attr(data-name);
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 5px;
+      border-radius: 3px;
+      font-size: 12px;
+    }
+
+    
+  </style>
+</head>
+<body>
+  <div id="map">
+    <img src="EоU.png" alt="Интерактивная карта" width="711" height="711"/>
+  </div>
+
+  <script>
+    // Массив со ссылками, размерами и страницами
+    var links = [
+      { top: 437, left: 587, width: 80, height: 108, page: 'page1.html', name: 'Франция', image: 'france.png' },
+      { top: 565, left: 705, width: 20, height: 30, page: 'page1.html', name: 'Франция', image: 'france.png' },
+      { top: 428, left: 674, width: 9, height: 10, page: 'page2.html', name: 'Люксембург', image: 'luxembourg.png' },
+      // Добавь другие ссылки, размеры и страницы
+    ];
+
+       // Создаем квадраты и добавляем обработчики событий
+       for (var i = 0; i < links.length; i++) {
+      var square = document.createElement('div');
+      square.className = 'square';
+      square.style.top = links[i].top + 'px';
+      square.style.left = links[i].left + 'px';
+      square.style.width = links[i].width + 'px';
+      square.style.height = links[i].height + 'px';
+      square.setAttribute('data-name', links[i].name);
+      if (links[i].image) {
+        square.setAttribute('data-image', links[i].image);
+      }
+      square.addEventListener('click', createHandler(links[i].page));
+      document.body.appendChild(square);
+    }
+
+
+    // Функция для создания обработчика события
+    function createHandler(page) {
+      return function() {
+        window.location.href = page;
+      };
+    }
+  </script>
+</body>
+</html>
